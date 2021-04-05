@@ -14,6 +14,25 @@ public class Aplicacao {
 	static boolean ativa = true;
 	static int cpf;
 	
+	
+	
+	public static void invalidarOperacao() {
+		System.out.println("|--------------------------------------------|");
+		System.out.println("|               OPÇÃO INVÁLIDA               |");
+		System.out.println("|--------------------------------------------|");
+		System.out.println("| Deseja tentar novamente? [S/N]:            |");
+		opcaoContinuar = leia.next().toUpperCase().charAt(0);	
+		if (opcaoContinuar =='S') {
+			mostrarMenuAtividades();
+		}
+		
+		else if(opcaoContinuar == 'N') {
+			pararAtividade();	
+		}
+		else {
+			invalidarOperacao();
+		}
+}
 	public static void invalidarAtividade() {
 			System.out.println("|--------------------------------------------|");
 			System.out.println("|               OPÇÃO INVÁLIDA               |");
@@ -270,20 +289,21 @@ public static int inserirCPF(int cpf) {  				//MÉTODO PARA ACESSO: VERIFICAÇÃO D
 		System.out.println("|                                            |");
 		System.out.print("|  DIGITE O CÓDIGO DA OPÇÃO SELECIONADA:     |");
 		
-		
 		try {
 		tipoConta = leia.nextInt();
+		if (tipoConta < 1 || tipoConta > 6) {
+			invalidarOpcaoContas();
 		}
-		catch (java.util.InputMismatchException exception) {
+		if (tipoConta == 6 ) {
+			pararAtividadeAcesso();
+		}
+		}
+		catch (InputMismatchException exception) {
 			limparTela();
 			System.out.println("|--------------------------------------------|"); 	
 			System.out.println("|VOCÊ NÃO PODE INFORMAR UMA CONTA COM LETRAS.|");
 			System.out.println("|         POR FAVOR, TENTE NOVAMENTE.        |");	
-			if (tipoConta < 1 || tipoConta > 6) {
-				invalidarOpcaoContas();
-			}
-			else {invalidarOpcaoContas();
-			}
+			invalidarOpcaoContas();
 		}
 		return tipoConta;
 	}
@@ -405,13 +425,13 @@ public static int inserirCPF(int cpf) {  				//MÉTODO PARA ACESSO: VERIFICAÇÃO D
 								System.out.println("|--------------------------------------------|");
 								System.out.println("| DIGITE O VALOR DA OPERAÇÃO: R$             |");
 								try {
-								valor[contador] = leia.nextDouble();
+									valor[contador] = leia.nextDouble();
 								}
 								 catch (InputMismatchException exception) {
 									System.out.println("|--------------------------------------------|"); 	
 									System.out.println("| VALOR INVÁLIDO, POR FAVOR UTILIZAR APENAS  |");
 									System.out.println("| NÚMEROS.                                   |"); 	
-									invalidarAtividade();
+									invalidarOperacao();
 								}
 								contaEspecial.creditar(valor[contador]);					
 								contaEspecial.consultarSaldo();
@@ -421,15 +441,27 @@ public static int inserirCPF(int cpf) {  				//MÉTODO PARA ACESSO: VERIFICAÇÃO D
 								limparTela();
 								System.out.println("|--------------------------------------------|");
 								System.out.println("         DIGITE O VALOR DA OPERAÇÃO: R$       ");
-								valor[contador] = leia.nextDouble();
-								if (valor[contador] > contaEspecial.getSaldo()) {
-									contaEspecial.usarLimite(valor[contador]);
-									contaEspecial.consultarSaldo();
-								} else if (valor[contador] <= contaEspecial.getSaldo()) {
-									contaEspecial.debitar(valor[contador]);
-									contaEspecial.consultarSaldo();									
+								
+								try {
+									valor[contador] = leia.nextDouble();
+									if (valor[contador] > contaEspecial.getSaldo()) {
+										contaEspecial.usarLimite(valor[contador]);
+										contaEspecial.consultarSaldo();
+										
+									} else if (valor[contador] <= contaEspecial.getSaldo()) {
+										contaEspecial.debitar(valor[contador]);
+										contaEspecial.consultarSaldo();		
+										
+									} else if (valor[contador] <= contaEspecial.getSaldo()) {
+										contaEspecial.debitar(valor[contador]);
+										contaEspecial.consultarSaldo();									
+									}
+								} catch  (InputMismatchException exception) {
+									System.out.println("|--------------------------------------------|"); 	
+									System.out.println("| VALOR INVÁLIDO, POR FAVOR UTILIZAR APENAS  |");
+									System.out.println("| NÚMEROS.                                   |"); 	
+									invalidarOperacao();
 								}
-								//contaEspecial.setContador(contaEspecial.getContador() + 1);
 							break;
 							
 							case 4: 
@@ -449,14 +481,13 @@ public static int inserirCPF(int cpf) {  				//MÉTODO PARA ACESSO: VERIFICAÇÃO D
 					}
 					break;
 					
-				/*case 4:					//CASO ESCOLHA CONTA EMPRESA
+				case 4:					//CASO ESCOLHA CONTA EMPRESA
 					limparTela();
 					double emprestimoEmpresa = 10000.00;
-					char pedirEmprestimo = 'N';
 					ContaEmpresa contaEmpresa = new ContaEmpresa(numero, cpf, ativa, emprestimoEmpresa);
 					System.out.println("|--------------------------------------------|");
 					System.out.println("|             { CONTA  EMPRESA }             |");
-					acessarConta(numero);  	
+					inserirNumero(numero);    	
 					inserirCPF(cpf);		
 					verificarAtividade(); 	
 					
@@ -464,7 +495,7 @@ public static int inserirCPF(int cpf) {  				//MÉTODO PARA ACESSO: VERIFICAÇÃO D
 						contador = contaEmpresa.getContador();
 						System.out.println("|--------------------------------------------|");
 						System.out.println("    LIMITE DE MOVIMENTAÇÕES (HOJE): " + contaEmpresa.getContador() + "/10");
-						mostrarMenu();
+						mostrarMenuAtividades();
 						switch (opcaoOperacao) {
 							case 1: 
 								limparTela();
@@ -475,7 +506,15 @@ public static int inserirCPF(int cpf) {  				//MÉTODO PARA ACESSO: VERIFICAÇÃO D
 								limparTela();
 								System.out.println("|--------------------------------------------|");
 								System.out.println("| DIGITE O VALOR DA OPERAÇÃO: R$             |");
-								valor[contador] = leia.nextDouble();
+								try {
+									valor[contador] = leia.nextDouble();
+								}
+								 catch (InputMismatchException exception) {
+									System.out.println("|--------------------------------------------|"); 	
+									System.out.println("| VALOR INVÁLIDO, POR FAVOR UTILIZAR APENAS  |");
+									System.out.println("| NÚMEROS.                                   |"); 	
+									invalidarOperacao();
+								}
 								contaEmpresa.creditar(valor[contador]);					
 								contaEmpresa.consultarSaldo();
 							break;
@@ -486,44 +525,55 @@ public static int inserirCPF(int cpf) {  				//MÉTODO PARA ACESSO: VERIFICAÇÃO D
 								System.out.println("|   OPERAÇÃO EXCLUSIVA PARA CONTA ESPECIAL   |");
 								System.out.println("|--------------------------------------------|");
 								System.out.println("         DIGITE O VALOR DA OPERAÇÃO: R$       ");
-								valor[contador] = leia.nextDouble();
-								if (valor[contador] > contaEmpresa.getSaldo()) {
-									System.out.println("|--------------------------------------------|");
-									System.out.println("| DESEJA SOLICITAR UM EMPRÉSTIMO? [S/N] ?    |");
-									System.out.println("|--------------------------------------------|");
-									opcaoContinuar = leia.next().toUpperCase().charAt(0);
-									if (opcaoContinuar == 'S') {
-										contaEmpresa.consultarSaldo();
+								try {
+									valor[contador] = leia.nextDouble();
+									if (valor[contador] > contaEmpresa.getSaldo()) {
 										System.out.println("|--------------------------------------------|");
-										System.out.println("| DIGITE O VALOR DO EMPRÉSTIMO: R$           |");
+										System.out.println("| DESEJA SOLICITAR UM EMPRÉSTIMO? [S/N] ?    |");
 										System.out.println("|--------------------------------------------|");
-										valor[contador] = leia.nextDouble();
-										contaEmpresa.pedirEmprestimo(valor[contador]);
-									} else if (opcaoContinuar == 'N') {
-										System.out.println("|--------------------------------------------|");
-										System.out.println("|          O QUE DESEJA FAZER AGORA?         |");
-										System.out.println("|--------------------------------------------|");
-										System.out.println("| [1] - VOLTAR AO MENU DE ATIVIDADES         |");
-										System.out.println("| [2] - SAIR                                 |");
-										System.out.println();
+										opcaoContinuar = leia.next().toUpperCase().charAt(0);
+										if (opcaoContinuar == 'S') {
+											contaEmpresa.consultarSaldo();
+											System.out.println("|--------------------------------------------|");
+											System.out.println("| DIGITE O VALOR DO EMPRÉSTIMO: R$           |");
+											System.out.println("|--------------------------------------------|");
+											valor[contador] = leia.nextDouble();
+											contaEmpresa.pedirEmprestimo(valor[contador]);
+										} else if (opcaoContinuar == 'N') {
+											System.out.println("|--------------------------------------------|");
+											System.out.println("|          O QUE DESEJA FAZER AGORA?         |");
+											System.out.println("|--------------------------------------------|");
+											System.out.println("| [1] - VOLTAR AO MENU DE ATIVIDADES         |");
+											System.out.println("| [2] - SAIR                                 |");
+											System.out.println();
 										switch(opcaoAtividade) {
 											case 1: 
-												mostrarMenu();	
+												mostrarMenuAtividades();	
 											break;
 											
 											case 2:
-												pararAtividade(opcaoContinuar);
+												pararAtividade();
 											break;
-										}
+											default: {
+												mostrarMenuAtividades();
+											}
+										
+										} 
+										
 									} else {
-										invalidarOpcao(opcaoContinuar);	
+										invalidarOperacao();	
 									}
 														
 								} else if (valor[contador] <= contaEmpresa.getSaldo()) {
 									contaEmpresa.debitar(valor[contador]);
 									contaEmpresa.consultarSaldo();									
 								}
-								//contaEspecial.setContador(contaEspecial.getContador() + 1);
+							} catch  (InputMismatchException exception) {
+								System.out.println("|--------------------------------------------|"); 	
+								System.out.println("| VALOR INVÁLIDO, POR FAVOR UTILIZAR APENAS  |");
+								System.out.println("| NÚMEROS.                                   |"); 	
+								invalidarOperacao();
+							}
 							break;
 							
 							case 4: 
@@ -550,20 +600,20 @@ public static int inserirCPF(int cpf) {  				//MÉTODO PARA ACESSO: VERIFICAÇÃO D
 									System.out.println();
 									switch(opcaoAtividade) {
 										case 1: 
-											mostrarMenu();	
+											mostrarMenuAtividades();	
 										break;
 										
 										case 2:
-											pararAtividade(opcaoContinuar);
+											pararAtividade();
 										break;
 									}
 								} else {
-									invalidarOpcao(opcaoContinuar);	
+									invalidarOperacao();	
 								}
 							break;
 							
 							case 5:  
-								pararAtividade(opcaoContinuar);
+								pararAtividade();
 						}
 							
 					} while (contaEmpresa.getContador() < valor.length);
@@ -571,7 +621,7 @@ public static int inserirCPF(int cpf) {  				//MÉTODO PARA ACESSO: VERIFICAÇÃO D
 					if (contaEmpresa.getContador() == valor.length) {
 						encerrarPorLimite();
 					}
-				break;*/
+				break;
 			}
 		} while (tipoConta == 6);
 	}
