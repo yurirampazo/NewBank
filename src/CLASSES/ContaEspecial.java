@@ -6,7 +6,7 @@ public class ContaEspecial extends Conta{
 	// ATRIBUTO DA SUB
 	private double limite = 1000;
 	// CONSTRUTOR - SOBRECARGA
-	public ContaEspecial(int numero, int cpf, boolean ativa, double limite) {
+	public ContaEspecial(int numero, String cpf, boolean ativa, double limite) {
 		super(numero, cpf, ativa);
 		this.limite = limite;
 	}

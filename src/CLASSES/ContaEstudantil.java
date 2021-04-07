@@ -5,7 +5,7 @@ import APLICACAO.Aplicacao;
 public class ContaEstudantil extends Conta {
 private double limiteEstudantil= 5000.00;
 	
-	public ContaEstudantil ( int numero, int cpf,boolean ativa,	 double limiteEstudantil) {
+	public ContaEstudantil ( int numero, String cpf,boolean ativa,	 double limiteEstudantil) {
 		super(numero,cpf, ativa);
 		this.limiteEstudantil = limiteEstudantil;
 	}

@@ -6,7 +6,7 @@ public class ContaCorrente extends Conta {
 	private double valorTalao = 1000.00;
 
 	// CONSTRUTOR
-	public ContaCorrente(int numero, int cpf, boolean ativa, int contadorTalao, double valorTalao) {
+	public ContaCorrente(int numero, String cpf, boolean ativa, int contadorTalao, double valorTalao) {
 		super(numero, cpf, ativa);
 		this.contadorTalao = contadorTalao;
 		this.valorTalao = valorTalao;
