@@ -25,9 +25,7 @@ public class ContaEspecial extends Conta{
 			double dif = valor - super.getSaldo();
 			limite -= dif;
 			super.creditar(dif);
-			super.debitar(valor);
-			setContador(getContador() - 1);  // REAJUSTA O CONTADOR QUE SERÁ SOMADO DUAS VEZES COM O MÉTODO USAR LIMITE QUE ACESSA 2X O CONTADOR	
-			
+						
 		} else if ( valor > super.getSaldo() + limite) {
 			System.out.println("|--------------------------------------------|");
 			System.out.println("|              OPERAÇÃO INVÁLIDA:            |");

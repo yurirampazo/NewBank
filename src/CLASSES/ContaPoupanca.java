@@ -2,7 +2,7 @@ package CLASSES;
 
 import java.util.GregorianCalendar;
 import java.util.Random;
-import APLICACAO.Aplicacao;
+
 
 public class ContaPoupanca extends Conta {
 	private int diaAniversarioPoupanca;
@@ -38,6 +38,7 @@ public class ContaPoupanca extends Conta {
 			reajuste = (super.getSaldo() * 0.005);
 			super.creditar(reajuste);
 			super.consultarSaldo();
+			super.setContador(getContador()-1);				//Reajuste no contador, apenas Créditos e débitos reais são considerados movimentações
 		}
 	}
 	public static void informarPoupanca() {

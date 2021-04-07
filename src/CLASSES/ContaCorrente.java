@@ -1,7 +1,5 @@
 package CLASSES;
 
-import APLICACAO.Aplicacao;
-
 public class ContaCorrente extends Conta {
 	// ATRIBUTOS
 	private int contadorTalao = 3;
@@ -20,7 +18,7 @@ public class ContaCorrente extends Conta {
 	}
 
 	public void setValorTalao(double valorTalao) {
-		this.valorTalao = 1000;
+		this.valorTalao = valorTalao;
 	}
 
 	public int getContadorTalao() {
@@ -28,13 +26,14 @@ public class ContaCorrente extends Conta {
 	}
 
 	public void setContadorTalao(int contadorTalao) {
-		this.contadorTalao = 3;
+		this.contadorTalao = contadorTalao;
 	}
 
 	public void pedirTalao() {
-		if (this.contadorTalao != 0) {
-			super.creditar(this.valorTalao);
+		if (this.contadorTalao > 0) {
 			this.contadorTalao -= 1;
+			super.creditar(this.valorTalao);
+			super.setContador(getContador()-1); //Reajuste no contador, apenas Créditos e débitos reais são considerados movimentações
 			System.out.println("|--------------------------------------------|");
 			System.out.println("|    TALÃO CREDITADO NA CONTA COM SUCESSO!   |");
 		} else if (this.contadorTalao <=0 ) {

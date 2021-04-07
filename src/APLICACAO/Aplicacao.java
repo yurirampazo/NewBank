@@ -5,6 +5,7 @@ import java.util.*;
 import CLASSES.ContaCorrente;
 import CLASSES.ContaEmpresa;
 import CLASSES.ContaEspecial;
+import CLASSES.ContaEstudantil;
 import CLASSES.ContaPoupanca;
 
 public class Aplicacao {
@@ -98,7 +99,7 @@ public class Aplicacao {
 					break;
 						
 					case 2:
-						int contadorTalao = 3, opcaoTalao = 0; double valorTalao = 1000.00; 
+						int contadorTalao = 3; double valorTalao = 1000.00; 
 						ContaCorrente contaCorrente = new ContaCorrente(numero, cpf, ativa, contadorTalao, valorTalao);		
 						limparTela();
 						System.out.println("|--------------------------------------------|");
@@ -109,7 +110,6 @@ public class Aplicacao {
 						verificarAtividade(); 	
 							
 						do {
-							contadorTalao = contaCorrente.getContadorTalao();
 							valorTalao = contaCorrente.getValorTalao();
 							contador = contaCorrente.getContador();
 							System.out.println("|--------------------------------------------|");
@@ -165,26 +165,38 @@ public class Aplicacao {
 								break;
 									
 								case 5:  
-							try {	
-									limparTela();
-
-									System.out.println("|--------------------------------------------|"); 	
-									System.out.println("|                VOCÊ VAI SAIR               |");
-									System.out.println("|--------------------------------------------|"); 	
-									System.out.println("| QUER USAR UM DE SEUS TALÕES? [S/N]         |");
-									opcaoContinuar = leia.next().charAt(0);
-									if (opcaoContinuar == 'S') {
-									
-										contaCorrente.pedirTalao();
-										mostrarMenuAtividades();	
-									}
-									else if (opcaoContinuar == 'N') {
-										
-										pararAtividade();
-									}
+									try {	
+										System.out.println("|--------------------------------------------|");
+										System.out.println("| DESEJA UTILIZAR UM TALÃO? [S/N] ?          |");
+										System.out.println("|--------------------------------------------|");
+										opcaoContinuar = leia.next().toUpperCase().charAt(0);
+										if (opcaoContinuar == 'S') {
+											contaCorrente.pedirTalao();
+											contaCorrente.consultarSaldo();
+										} else if (opcaoContinuar == 'N') {
+											System.out.println("|--------------------------------------------|");
+											System.out.println("|          O QUE DESEJA FAZER AGORA?         |");
+											System.out.println("|--------------------------------------------|");
+											System.out.println("| [1] - VOLTAR AO MENU DE ATIVIDADES         |");
+											System.out.println("| [2] - SAIR                                 |");
+											System.out.println();
+											opcaoAtividade = leia.nextShort();
+										switch(opcaoAtividade) {
+											case 1: 
+												mostrarMenuAtividades();	
+											break;
 											
-									break;
-									
+											case 2:
+												pararAtividade();
+											break;
+											default: {
+												mostrarMenuAtividades();
+											}
+										} 
+									} else {
+										invalidarOperacao();	
+									}
+												
 								} catch  (InputMismatchException exception) {
 									System.out.println("|--------------------------------------------|"); 	
 									System.out.println("|VALOR INVÁLIDO, POR FAVOR TENTE NOVAMENTE   |"); 	
@@ -195,6 +207,7 @@ public class Aplicacao {
 								}
 									
 							} while (contaCorrente.getContador() < valor.length);
+						
 						try {	
 							limparTela();
 
@@ -206,11 +219,11 @@ public class Aplicacao {
 							if (opcaoContinuar == 'S') {
 							
 								contaCorrente.pedirTalao();
-								mostrarMenuAtividades();	
+								contaCorrente.consultarSaldo();
 							}
 							else if (opcaoContinuar == 'N') {
-								
-								pararAtividade();
+								encerrarPorLimite();
+								System.exit(0);
 							}
 									
 							break;
@@ -221,6 +234,7 @@ public class Aplicacao {
 							System.out.println("|--------------------------------------------|");
 							invalidarOperacao();
 						}
+						encerrarPorLimite();
 					break;
 				
 				case 3: 				//CASO ESCOLHA CONTA ESPECIAL
@@ -299,10 +313,8 @@ public class Aplicacao {
 						}
 							
 					} while (contaEspecial.getContador() < valor.length);
+					encerrarPorLimite();
 					
-					if (contaEspecial.getContador() == valor.length) {
-						encerrarPorLimite();
-					}
 					break;
 					
 				case 4:					//CASO ESCOLHA CONTA EMPRESA
@@ -335,67 +347,34 @@ public class Aplicacao {
 									contaEmpresa.creditar(valor[contador]);					
 									contaEmpresa.consultarSaldo();
 								}
+								
 								 catch (InputMismatchException exception) {
 									System.out.println("|--------------------------------------------|"); 	
 									System.out.println("|VALOR INVÁLIDO, POR FAVOR TENTE NOVAMENTE   |"); 	
-									System.out.println("|--------------------------------------------|");	
+									System.out.println("|--------------------------------------------|"); 	
 									invalidarOperacao();
 								}
 							break;
 								
 							case 3: 
-								limparTela();
-								System.out.println("|--------------------------------------------|");
-								System.out.println("|   OPERAÇÃO EXCLUSIVA PARA CONTA ESPECIAL   |");
-								System.out.println("|--------------------------------------------|");
-								System.out.println("         DIGITE O VALOR DA OPERAÇÃO: R$       ");
 								try {
+									limparTela();
+									System.out.println("|--------------------------------------------|");
+									System.out.println("         DIGITE O VALOR DA OPERAÇÃO: R$       ");
 									valor[contador] = leia.nextDouble();
 									if (valor[contador] > contaEmpresa.getSaldo()) {
-										System.out.println("|--------------------------------------------|");
-										System.out.println("| DESEJA SOLICITAR UM EMPRÉSTIMO? [S/N] ?    |");
-										System.out.println("|--------------------------------------------|");
-										opcaoContinuar = leia.next().toUpperCase().charAt(0);
-										if (opcaoContinuar == 'S') {
-											contaEmpresa.consultarSaldo();
-											System.out.println("|--------------------------------------------|");
-											System.out.println("| DIGITE O VALOR DO EMPRÉSTIMO: R$           |");
-											System.out.println("|--------------------------------------------|");
-											valor[contador] = leia.nextDouble();
-											contaEmpresa.pedirEmprestimo(valor[contador]);
-										} else if (opcaoContinuar == 'N') {
-											System.out.println("|--------------------------------------------|");
-											System.out.println("|          O QUE DESEJA FAZER AGORA?         |");
-											System.out.println("|--------------------------------------------|");
-											System.out.println("| [1] - VOLTAR AO MENU DE ATIVIDADES         |");
-											System.out.println("| [2] - SAIR                                 |");
-											System.out.println();
-										switch(opcaoAtividade) {
-											case 1: 
-												mostrarMenuAtividades();	
-											break;
-											
-											case 2:
-												pararAtividade();
-											break;
-											default: {
-												mostrarMenuAtividades();
-											}
-										} 
-									} else {
-										invalidarOperacao();	
+										contaEmpresa.debitar(valor[contador]);
+										contaEmpresa.consultarSaldo();	
+									} else if (valor[contador] <= contaEmpresa.getSaldo()) {
+										contaEmpresa.debitar(valor[contador]);
+										contaEmpresa.consultarSaldo();									
 									}
-														
-								} else if (valor[contador] <= contaEmpresa.getSaldo()) {
-									contaEmpresa.debitar(valor[contador]);
-									contaEmpresa.consultarSaldo();									
-								}
-							} catch  (InputMismatchException exception) {
-								System.out.println("|--------------------------------------------|"); 	
-								System.out.println("|VALOR INVÁLIDO, POR FAVOR TENTE NOVAMENTE   |"); 	
-								System.out.println("|--------------------------------------------|");
-								invalidarOperacao();
-							}
+								} catch (InputMismatchException exception) {
+									System.out.println("|--------------------------------------------|"); 	
+									System.out.println("|VALOR INVÁLIDO, POR FAVOR TENTE NOVAMENTE   |"); 	
+									System.out.println("|--------------------------------------------|");	
+									invalidarOperacao();
+								}								
 							break;
 							
 							case 4: 
@@ -417,6 +396,7 @@ public class Aplicacao {
 											System.out.println("| [1] - VOLTAR AO MENU DE ATIVIDADES         |");
 											System.out.println("| [2] - SAIR                                 |");
 											System.out.println();
+											opcaoAtividade = leia.nextShort();
 										switch(opcaoAtividade) {
 											case 1: 
 												mostrarMenuAtividades();	
@@ -432,11 +412,7 @@ public class Aplicacao {
 									} else {
 										invalidarOperacao();	
 									}
-														
-									if (valor[contador] <= contaEmpresa.getSaldo()) {
-									contaEmpresa.debitar(valor[contador]);
-									contaEmpresa.consultarSaldo();									
-								}
+													
 							} catch  (InputMismatchException exception) {
 								System.out.println("|--------------------------------------------|"); 	
 								System.out.println("|VALOR INVÁLIDO, POR FAVOR TENTE NOVAMENTE   |"); 	
@@ -450,10 +426,169 @@ public class Aplicacao {
 						}
 						
 					} while (contaEmpresa.getContador() < valor.length);
-					
-					if (contaEmpresa.getContador() == valor.length) {
+						try {	
+							System.out.println("|--------------------------------------------|");
+							System.out.println("| DESEJA SOLICITAR UM EMPRÉSTIMO? [S/N] ?    |");
+							System.out.println("|--------------------------------------------|");
+							opcaoContinuar = leia.next().toUpperCase().charAt(0);
+							if (opcaoContinuar == 'S') {
+								contaEmpresa.consultarSaldo();
+								System.out.println("|--------------------------------------------|");
+								System.out.println("| DIGITE O VALOR DO EMPRÉSTIMO: R$           |");
+								System.out.println("|--------------------------------------------|");
+								valor[contador] = leia.nextDouble();
+								contaEmpresa.pedirEmprestimo(valor[contador]);
+							} else if (opcaoContinuar == 'N') {
+								encerrarPorLimite();
+								System.exit(0);
+							} else {
+								invalidarOperacao();	
+							}
+													
+						} catch  (InputMismatchException exception) {
+							System.out.println("|--------------------------------------------|"); 	
+							System.out.println("|VALOR INVÁLIDO, POR FAVOR TENTE NOVAMENTE   |"); 	
+							System.out.println("|--------------------------------------------|");
+							invalidarOperacao();
+						}
 						encerrarPorLimite();
+				break;
+				
+				case 5 : 
+					limparTela();
+					double limiteEstudantil = 5000.00;
+					ContaEstudantil contaEstudantil = new ContaEstudantil(numero, cpf, ativa, limiteEstudantil);
+					System.out.println("|--------------------------------------------|");
+					System.out.println("|            { CONTA  ESTUDANTIL }           |");
+					inserirNumero(numero);    	
+					inserirCPF(cpf);		
+					verificarAtividade(); 	
+					
+					do {
+						contador = contaEstudantil.getContador();
+						System.out.println("|--------------------------------------------|");
+						System.out.println("    LIMITE DE MOVIMENTAÇÕES (HOJE): " + contaEstudantil.getContador() + "/10");
+						mostrarMenuAtividades();
+						switch (opcaoOperacao) {
+							case 1: 
+								limparTela();
+								contaEstudantil.consultarSaldo();
+							break;
+							
+							case 2: 
+								limparTela();
+								System.out.println("|--------------------------------------------|");
+								System.out.println("| DIGITE O VALOR DA OPERAÇÃO: R$             |");
+								try {
+									valor[contador] = leia.nextDouble();
+									contaEstudantil.creditar(valor[contador]);					
+									contaEstudantil.consultarSaldo();
+								}
+								
+								 catch (InputMismatchException exception) {
+									System.out.println("|--------------------------------------------|"); 	
+									System.out.println("|VALOR INVÁLIDO, POR FAVOR TENTE NOVAMENTE   |"); 	
+									System.out.println("|--------------------------------------------|"); 	
+									invalidarOperacao();
+								}
+							break;
+								
+							case 3: 
+								try {
+									limparTela();
+									System.out.println("|--------------------------------------------|");
+									System.out.println("         DIGITE O VALOR DA OPERAÇÃO: R$       ");
+									valor[contador] = leia.nextDouble();
+									if (valor[contador] > contaEstudantil.getSaldo()) {
+										contaEstudantil.debitar(valor[contador]);
+										contaEstudantil.consultarSaldo();	
+									} else if (valor[contador] <= contaEstudantil.getSaldo()) {
+										contaEstudantil.debitar(valor[contador]);
+										contaEstudantil.consultarSaldo();									
+									}
+								} catch (InputMismatchException exception) {
+									System.out.println("|--------------------------------------------|"); 	
+									System.out.println("|VALOR INVÁLIDO, POR FAVOR TENTE NOVAMENTE   |"); 	
+									System.out.println("|--------------------------------------------|");	
+									invalidarOperacao();
+								}								
+							break;
+							
+							case 4: 
+								try {	System.out.println("|--------------------------------------------|");
+										System.out.println("| DESEJA UTILIZAR O LIMITE ESTUDANTIL? [S/N] |");
+										System.out.println("|--------------------------------------------|");
+										opcaoContinuar = leia.next().toUpperCase().charAt(0);
+										if (opcaoContinuar == 'S') {
+											contaEstudantil.consultarSaldo();
+											System.out.println("|--------------------------------------------|");
+											System.out.println("| DIGITE O VALOR DO EMPRÉSTIMO: R$           |");
+											System.out.println("|--------------------------------------------|");
+											valor[contador] = leia.nextDouble();
+											contaEstudantil.usarEstudantil(valor[contador]);
+										} else if (opcaoContinuar == 'N') {
+											System.out.println("|--------------------------------------------|");
+											System.out.println("|          O QUE DESEJA FAZER AGORA?         |");
+											System.out.println("|--------------------------------------------|");
+											System.out.println("| [1] - VOLTAR AO MENU DE ATIVIDADES         |");
+											System.out.println("| [2] - SAIR                                 |");
+											System.out.println();
+											opcaoAtividade = leia.nextShort();
+										switch(opcaoAtividade) {
+											case 1: 
+												mostrarMenuAtividades();	
+											break;
+											
+											case 2:
+												pararAtividade();
+											break;
+											default: {
+												mostrarMenuAtividades();
+											}
+										} 
+									} else {
+										invalidarOperacao();	
+									}
+													
+							} catch  (InputMismatchException exception) {
+								System.out.println("|--------------------------------------------|"); 	
+								System.out.println("|VALOR INVÁLIDO, POR FAVOR TENTE NOVAMENTE   |"); 	
+								System.out.println("|--------------------------------------------|");
+								invalidarOperacao();
+							}
+								break;
+							case 5:  
+								pararAtividade();
+							break;
+						}
+						
+					} while (contaEstudantil.getContador() < valor.length);
+					try {
+						System.out.println("|--------------------------------------------|");
+						System.out.println("| DESEJA UTILIZAR O LIMITE ESTUDANTIL? [S/N] |");
+						System.out.println("|--------------------------------------------|");
+						opcaoContinuar = leia.next().toUpperCase().charAt(0);
+						if (opcaoContinuar == 'S') {
+							contaEstudantil.consultarSaldo();
+							System.out.println("|--------------------------------------------|");
+							System.out.println("| DIGITE O VALOR DO EMPRÉSTIMO: R$           |");
+							System.out.println("|--------------------------------------------|");
+							valor[contador] = leia.nextDouble();
+							contaEstudantil.usarEstudantil(valor[contador]);
+						} else if (opcaoContinuar == 'N') {
+							encerrarPorLimite();
+							System.exit(0);
+						} else {
+							invalidarOperacao();	
+						}
+											
+					} catch  (InputMismatchException exception) {
+						System.out.println("|--------------------------------------------|"); 	
+						System.out.println("|VALOR INVÁLIDO, POR FAVOR TENTE NOVAMENTE   |"); 	
+						System.out.println("|--------------------------------------------|");
+						invalidarOperacao();
 					}
+						encerrarPorLimite();
 				break;
 		}
 	}
@@ -635,10 +770,15 @@ public class Aplicacao {
 	}
 	public static int inserirCPF(int cpf) {  				//MÉTODO PARA ACESSO: VERIFICAÇÃO DO CPF
 		limparTela();
-		System.out.println("| DIGITE O SEU CPF:                          |");
+		System.out.println("| SE SEU CPF POSSUIR UM CARACTERE, SUBSTITUA |");
+		System.out.println("| O CARACTERE PELO DIGITO 0                  |");
+		System.out.println("|--------------------------------------------|");
+		System.out.println("| POR FAVOR DIGITE O SEU CPF:                |");
 		System.out.println("|--------------------------------------------|");
 		try {
 			cpf = leia.nextInt();
+			
+
 			limparTela();
 		} catch (InputMismatchException exception) {
 			limparTela();
@@ -689,7 +829,7 @@ public class Aplicacao {
 		System.out.println("|               [ NEW BANK ]                 |");
 		System.out.println("|   ---> Aqui seu dinheiro têm VALOR! <---   |");
 		System.out.println("|--------------------------------------------|");
-		System.out.println("| DIGITE O NÚMERO DA CONTA:                  |");
+		System.out.println("| POR FAVOR, DIGITE O NÚMERO DA CONTA:       |");
 		System.out.println("|--------------------------------------------|");
 		try {
 			numero = leia.nextInt();
@@ -745,5 +885,5 @@ public class Aplicacao {
 			for (int i = 0; i < 15; i++) {
 				System.out.println();
 			}
-		}
+	}
 }

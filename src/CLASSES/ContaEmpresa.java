@@ -4,7 +4,7 @@ import APLICACAO.Aplicacao;
 
 public class ContaEmpresa extends Conta {
 	
-	private double emprestimoEmpresa;
+	private double emprestimoEmpresa = 10000.00;
 
 	public ContaEmpresa(int numero, int cpf, boolean ativa, double emprestimoEmpresa) {
 		super(numero, cpf, ativa);
@@ -17,23 +17,24 @@ public class ContaEmpresa extends Conta {
 	}
 	
 	public void setEmprestimoEmpresa(double emprestimoEmpresa) {
-		this.emprestimoEmpresa = 10000.00;
+		this.emprestimoEmpresa = emprestimoEmpresa;
 	}
 	
 	public double pedirEmprestimo (double valor) {
-		if (valor <= this.emprestimoEmpresa) {
-			this.emprestimoEmpresa -= valor;
+		if (this.emprestimoEmpresa >= valor) {
 			super.creditar(valor);
-		} else if (valor > this.emprestimoEmpresa ) {
+			this.emprestimoEmpresa -= valor;
+			super.setContador(getContador()-1); //Reajuste no contador, apenas Créditos e débitos reais são considerados movimentações
+					
+		} else if (valor > this.emprestimoEmpresa) {
 			Aplicacao.limparTela();
 			System.out.println("|--------------------------------------------|");
 			System.out.println("|              OPERAÇÃO INVÁLIDA:            |");
 			System.out.println("|--------------------------------------------|");
 			System.out.println("|        LIMITE EMPRESARIAL INSUFICIENTE     |");
 			System.out.println("|--------------------------------------------|");
-			
 		}
-		return emprestimoEmpresa;
+		return this.emprestimoEmpresa;
 	}
 	@Override
 	public void consultarSaldo() {
