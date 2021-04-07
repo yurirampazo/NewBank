@@ -8,7 +8,7 @@ public class ContaPoupanca extends Conta {
 	private int diaAniversarioPoupanca;
 	private double reajuste;
 
-	public ContaPoupanca(int numero, int cpf, boolean ativa, int diaAniversarioPoupanca) {
+	public ContaPoupanca(int numero, String cpf, boolean ativa, int diaAniversarioPoupanca) {
 		super(numero, cpf, ativa);
 		this.diaAniversarioPoupanca = diaAniversarioPoupanca;
 

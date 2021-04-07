@@ -14,7 +14,7 @@ public class Aplicacao {
 	static short opcaoAtividade;
 	static char opcaoContinuar = 'S';
 	static boolean ativa = true;
-	static int cpf;
+	static String cpf;
 	
 	public static void main(String[] args) {
 		int contador = 0;
@@ -31,7 +31,7 @@ public class Aplicacao {
 					System.out.println("|             { CONTA  POUPANÇA }            |");
 					diaAniversarioPoupanca = contaPoupanca.getDiaAniversarioPoupanca();
 					inserirNumero(numero);  	
-					inserirCPF(cpf);		
+					inserirCPF();		
 					verificarAtividade(); 	
 						
 					do {
@@ -106,7 +106,7 @@ public class Aplicacao {
 						System.out.println("|             { CONTA  CORRENTE }            |");
 						
 						inserirNumero(numero);  	
-						inserirCPF(cpf);		
+						inserirCPF();		
 						verificarAtividade(); 	
 							
 						do {
@@ -244,7 +244,7 @@ public class Aplicacao {
 					System.out.println("|--------------------------------------------|");
 					System.out.println("|             { CONTA  ESPECIAL }            |");
 					inserirNumero(numero);  	
-					inserirCPF(cpf);		
+					inserirCPF();		
 					verificarAtividade(); 	
 					
 					do {
@@ -324,7 +324,7 @@ public class Aplicacao {
 					System.out.println("|--------------------------------------------|");
 					System.out.println("|             { CONTA  EMPRESA }             |");
 					inserirNumero(numero);    	
-					inserirCPF(cpf);		
+					inserirCPF();		
 					verificarAtividade(); 	
 					
 					do {
@@ -461,7 +461,7 @@ public class Aplicacao {
 					System.out.println("|--------------------------------------------|");
 					System.out.println("|            { CONTA  ESTUDANTIL }           |");
 					inserirNumero(numero);    	
-					inserirCPF(cpf);		
+					inserirCPF();		
 					verificarAtividade(); 	
 					
 					do {
@@ -636,7 +636,7 @@ public class Aplicacao {
 		opcaoContinuar = leia.next().toUpperCase().charAt(0);	
 		if (opcaoContinuar =='S') {
 			limparTela();
-			inserirCPF(cpf);
+			inserirCPF();
 		}		
 		else if(opcaoContinuar == 'N') {
 			limparTela();
@@ -768,18 +768,28 @@ public class Aplicacao {
 			invalidarOpcaoContas();
 		}
 	}
-	public static int inserirCPF(int cpf) {  				//MÉTODO PARA ACESSO: VERIFICAÇÃO DO CPF
+	public static void inserirCPF() {  				//MÉTODO PARA ACESSO: VERIFICAÇÃO DO CPF
+		try {
 		limparTela();
-		System.out.println("| SE SEU CPF POSSUIR UM CARACTERE, SUBSTITUA |");
-		System.out.println("| O CARACTERE PELO DIGITO 0                  |");
 		System.out.println("|--------------------------------------------|");
 		System.out.println("| POR FAVOR DIGITE O SEU CPF:                |");
 		System.out.println("|--------------------------------------------|");
-		try {
-			cpf = leia.nextInt();
+		do {
+				cpf = leia.next();
+				if (cpf.length() == 11 ){
+					System.out.println("|--------------------------------------------|"); 	
+					System.out.println("|          CPF VALIDADO COM SUCESSO          |");
+					System.out.println("|--------------------------------------------|"); 	
+					
+				}
+				else {
+					System.out.println("|--------------------------------------------|"); 	
+					System.out.println("|   ERRO: O CPF PRECISA CONTER 11 DÍGITOS    |");
+					System.out.println("|--------------------------------------------|"); 
+					inserirCPF();
+				}
 			
-
-			limparTela();
+		} while (cpf.length() != 11);
 		} catch (InputMismatchException exception) {
 			limparTela();
 			System.out.println("|--------------------------------------------|"); 	
@@ -788,7 +798,6 @@ public class Aplicacao {
 			System.out.println("|--------------------------------------------|"); 	
 			invalidarCPF();
 		}
-		return cpf;
 	}
 	public static int mostrarMenuAtividades() {			//MÉTODO PARA MENU DE ACESSO AS AÇÕES DA CONTA
 		System.out.println("|--------------------------------------------|");

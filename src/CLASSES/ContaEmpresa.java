@@ -6,7 +6,7 @@ public class ContaEmpresa extends Conta {
 	
 	private double emprestimoEmpresa = 10000.00;
 
-	public ContaEmpresa(int numero, int cpf, boolean ativa, double emprestimoEmpresa) {
+	public ContaEmpresa(int numero, String cpf, boolean ativa, double emprestimoEmpresa) {
 		super(numero, cpf, ativa);
 		this.emprestimoEmpresa = emprestimoEmpresa;
 	}

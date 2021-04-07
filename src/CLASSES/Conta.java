@@ -4,13 +4,13 @@ import APLICACAO.Aplicacao;
 
 public class Conta {
 	private int numero;
-	private int cpf;
+	private String cpf;
 	private double saldo;
 	private boolean ativa;
 	private int contador = 0;
 
 	// CONSTRUTORES
-	public Conta(int numero, int cpf, boolean ativa) {
+	public Conta(int numero, String cpf, boolean ativa) {
 		this.numero = numero;
 		this.cpf = cpf;
 		this.ativa = ativa;
@@ -25,11 +25,11 @@ public class Conta {
 		this.numero = numero;
 	}
 
-	public int getCpf() {
+	public String getCpf() {
 		return cpf;
 	}
 
-	public void setCpf(int cpf) {
+	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
 
