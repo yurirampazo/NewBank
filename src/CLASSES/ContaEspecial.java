@@ -4,7 +4,7 @@ import APLICACAO.Aplicacao;
 
 public class ContaEspecial extends Conta{
 	// ATRIBUTO DA SUB
-	private double limite;
+	private double limite = 1000;
 	// CONSTRUTOR - SOBRECARGA
 	public ContaEspecial(int numero, int cpf, boolean ativa, double limite) {
 		super(numero, cpf, ativa);
@@ -15,7 +15,7 @@ public class ContaEspecial extends Conta{
 		return limite;
 	}
 	public void setLimite(double limite) {
-		this.limite = 1000.00;
+		this.limite = limite;
 	}
 
 	// MÉTODO especial SITUAÇÃO ESPECIAL, CASO SEJA UTILIZADO O LIMITE
@@ -37,7 +37,7 @@ public class ContaEspecial extends Conta{
 		return limite;
 	}
 	
-	public static void informarLimite(int caseFour) {
+	public static void informarLimite() {
 		System.out.println("|--------------------------------------------|");
 		System.out.println("|   OPERAÇÃO EXCLUSIVA PARA CONTA ESPECIAL   |");
 		System.out.println("|--------------------------------------------|");

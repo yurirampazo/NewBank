@@ -1,9 +1,11 @@
 package CLASSES;
 
+import APLICACAO.Aplicacao;
+
 public class ContaCorrente extends Conta {
 	// ATRIBUTOS
-	private int contadorTalao;
-	private double valorTalao;
+	private int contadorTalao = 3;
+	private double valorTalao = 1000.00;
 
 	// CONSTRUTOR
 	public ContaCorrente(int numero, int cpf, boolean ativa, int contadorTalao, double valorTalao) {
@@ -18,7 +20,7 @@ public class ContaCorrente extends Conta {
 	}
 
 	public void setValorTalao(double valorTalao) {
-		this.valorTalao = 1000.00;
+		this.valorTalao = 1000;
 	}
 
 	public int getContadorTalao() {
@@ -29,49 +31,41 @@ public class ContaCorrente extends Conta {
 		this.contadorTalao = 3;
 	}
 
-	@Override
-	// SITUAÇÃO NORMAL EM QUE O SALDO É MAIOR QUE O VALOR DEBITADO!
-	// SITUAÇÃO ESPECIAL, CASO SEJA UTILIZADO O LIMIT
-	public void debitar(double valor) {
-		double saldo = super.getSaldo();
-		if (super.getSaldo() >= valor) {
-			saldo -= valor;
-			super.debitar(saldo);
-			System.out.printf("Saque de R$ %.2f. Retire seu dinheiro abaixo! \n", valor);
-			System.out.println();
-			System.out.printf("Saldo R$ %.2f \n", super.getSaldo());
-
-		} else if (valor > super.getSaldo() && contadorTalao > 0 && contadorTalao <= 3) {
-			System.out.println(
-					"Seu saldo acabou, a partir de agora você tem direito a utilizar 1 de 3 dos talões disponiveis.");
-			// this.saldo = valorTalao;
-			// this.contadorTalao--;
-
-			this.pediTalao();
-
-			saldo -= valor;
-			saldo += valorTalao;
-			super.debitar(saldo);
-			System.out.println(
-					"Voce acabaou de solicitar um talao de R$ " + valorTalao /* +" do Talão de cheques. "+ valor */);
-			System.out.println("Saque R$ " + valor);
-			System.out.printf("Valor restante do talao R$ %.2f \n", super.getSaldo());
-
-		} else if (valor > super.getSaldo() && contadorTalao == 0) {
-			System.out.println("Você não pode realizar essa operação. seus taloes de cheque acabaram!");
-			System.out.printf("Saldo R$ %.2f \n", super.getSaldo());
-
-		}
-	}
-
-	/* SOLICITA TALAO */
-	public void pediTalao() {
+	public void pedirTalao() {
 		if (this.contadorTalao != 0) {
-			this.contadorTalao = this.contadorTalao - 1;
-			// this.setContadorTalao(this.getContadorTalao() - 1);
-
-		} else {
-			System.out.println("Voce ja utilizou todos seus taloes do mes!");
-		}
+			super.creditar(this.valorTalao);
+			this.contadorTalao -= 1;
+			System.out.println("|--------------------------------------------|");
+			System.out.println("|    TALÃO CREDITADO NA CONTA COM SUCESSO!   |");
+		} else if (this.contadorTalao <=0 ) {
+			System.out.println("|--------------------------------------------|");
+			System.out.println("|         LIMITE DE TALÕES ESGOTADO.         |");
+			System.out.println("|--------------------------------------------|");
+		}	
+		consultarSaldo();
 	}
+	
+	@Override 
+	public void consultarSaldo() {
+		System.out.println("|--------------------------------------------|");
+		System.out.printf("       [ SALDO DISPONÍVEL:  R$  %.2f ]  ",super.getSaldo());
+		System.out.println("");
+		System.out.println("|--------------------------------------------|");
+		System.out.println("          [ TALÕES DISPONÍVEIS: " + this.contadorTalao + "]");
+		System.out.println("");
+	}	
+	
+	public static void informarTaloes() {
+		System.out.println("|--------------------------------------------|");
+		System.out.println("|   CONDIÇÃO ESPECIAL PARA CONTA CORRENTE    |");
+		System.out.println("|--------------------------------------------|");
+		System.out.println("| O New Bank proporciona aos clientes que    |");
+		System.out.println("| adereiram  esse tipo de conta, um bônus de |");
+		System.out.println("| 3 Talões de R$ 1000,00 para uso mensal.    |");
+		System.out.println("|--------------------------------------------|");
+		System.out.println("| COMO UTILIZAR?                             |");
+		System.out.println("| Solicitar ao sair ou ao final das operações|");
+		System.out.println("| diárias.					                 |");
+	}
+	
 }

@@ -61,7 +61,7 @@ public class Conta {
 		Aplicacao.limparTela();
 			this.saldo = this.saldo + valor;
 			System.out.println("|--------------------------------------------|");
-			System.out.println("|             DEPï¿½SITO REALIZADO.            |"); 
+			System.out.println("|             DEPÓSITO REALIZADO.            |"); 
 			System.out.println("|--------------------------------------------|");
 			System.out.printf("        [ VALOR CREDITADO: R$ %.2f ]      ", valor);
 			System.out.println("                                             ");
@@ -70,7 +70,7 @@ public class Conta {
 		else if (valor <= 0) {		
 			this.saldo += 0; 
 			System.out.println("|--------------------------------------------|");
-			System.out.println("|       VALOR INVï¿½LIDO PARA DEPï¿½SITO         |");
+			System.out.println("|       VALOR INVÁLIDO PARA DEPÓSITO         |");
 			System.out.println("|--------------------------------------------|");
 		}		
 	}
@@ -83,14 +83,14 @@ public class Conta {
 		
 		} else if (valor > saldo) {	
 			System.out.println("|--------------------------------------------|");
-			System.out.println("|              OPERAï¿½ï¿½O INVï¿½LIDA:            |");
+			System.out.println("|              OPERAÇÃO INVALIDA:            |");
 			System.out.println("|--------------------------------------------|");
 			System.out.println("|              SALDO INSUFICIENTE            |");
 	
 		} else if (valor <= 0) {		
 			this.saldo += 0; 
 			System.out.println("|--------------------------------------------|");
-			System.out.println("|       VALOR INVï¿½LIDO PARA DEPï¿½SITO         |");
+			System.out.println("|       VALOR INVÁLIDO PARA DEPÓSITO         |");
 			System.out.println("|--------------------------------------------|");
 		}		
 	}
@@ -98,6 +98,6 @@ public class Conta {
 
 	public void consultarSaldo() {
 		System.out.println("|--------------------------------------------|");
-		System.out.printf("       [ SALDO DISPONï¿½VEL:  R$  %.2f ] \n",this.getSaldo());
+		System.out.printf("       [ SALDO DISPONÍVEL:  R$  %.2f ] \n",this.getSaldo());
 	}	
 }
