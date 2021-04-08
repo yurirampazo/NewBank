@@ -207,27 +207,24 @@ public class Aplicacao {
 								}
 									
 							} while (contaCorrente.getContador() < valor.length);
-						
 						try {	
-							limparTela();
-
-							System.out.println("|--------------------------------------------|"); 	
-							System.out.println("|                VOCÊ VAI SAIR               |");
-							System.out.println("|--------------------------------------------|"); 	
-							System.out.println("| QUER USAR UM DE SEUS TALÕES? [S/N]         |");
-							opcaoContinuar = leia.next().charAt(0);
+							System.out.println("|--------------------------------------------|");
+							System.out.println("| DESEJA UTILIZAR UM TALÃO? [S/N] ?          |");
+							System.out.println("|--------------------------------------------|");
+							opcaoContinuar = leia.next().toUpperCase().charAt(0);
 							if (opcaoContinuar == 'S') {
-							
 								contaCorrente.pedirTalao();
 								contaCorrente.consultarSaldo();
-							}
-							else if (opcaoContinuar == 'N') {
+							} else if (opcaoContinuar == 'N') {
 								encerrarPorLimite();
 								System.exit(0);
+							
+							} 
+							else {
+							invalidarOperacao();
+							
 							}
 									
-							break;
-							
 						} catch  (InputMismatchException exception) {
 							System.out.println("|--------------------------------------------|"); 	
 							System.out.println("|VALOR INVÁLIDO, POR FAVOR TENTE NOVAMENTE   |"); 	
