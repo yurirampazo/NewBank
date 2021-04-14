@@ -53,7 +53,8 @@ $ Poupança, Corrente, Especial, Empresa ou Estudantil
 $ Pode ser qualquer número contido na capacidade de um tipo int. (Não há validação de contas nesse projeto)
 
 # Digite um número de CPF ou CNPJ no caso da conta Empresa
-$ A única validação é o comprimento da String CPF. ( Foi utilizado o tipo String para evitar conflitos com sequências que se iniciem com 0 ou que também sejam compostas por caracteres).
+$ A única validação é o comprimento da String CPF. ( Foi utilizado o tipo String para evitar conflitos com sequências 
+$ que se iniciem com 0 ou que também sejam compostas por caracteres).
 
 # Informe o Status da Conta
 $ Caso ela seja inativa a aplicação é encerrada.
@@ -66,23 +67,31 @@ $ - Operação Especial
 $ - Encerrar
 
 # Operação Especial Conta Poupança
-$ Na conta poupança quando o dia for o mesmo que o dia de criação daa conta, ela recebe um acrescimo de juros no seu saldo ao final da aplicação de 0,05%. 
+$ Na conta poupança quando o dia for o mesmo que o dia de criação daa conta, ela recebe 
+$ um acrescimo $ de juros no seu saldo ao final da aplicação de 0,05%. 
 $ Se selecionar Operação especial apenas receberá um aviso de como funciona esse crédito.
 
 # Operação Especial Conta Corrente
-$ O usuário ao sair da aplicação ou encerrar as atividades por limite deve ser capaz de solicitar um talão de R$ 1000,00. No total ele possui 3 talões.
+$ O usuário ao sair da aplicação ou encerrar as atividades por limite deve ser capaz de 
+$ solicitar um talão de R$ 1000,00. No total ele possui 3 talões.
 
 # Operação Especial Conta Especial
-$ O usuário ao realizar um débito de valor superior ao seu saldo acessa um limite especial de até R$ 1000,00 inicialmente. E enquanto possuir esse limite, poderá utilizá-lo em operações de débito, mesmo que com saldo nulo.
+$ O usuário ao realizar um débito de valor superior ao seu saldo acessa um limite especial 
+$ de até R$ 1000,00 inicialmente. E enquanto possuir esse limite, poderá utilizá-lo 
+$ em operações de débito, mesmo que com saldo nulo.
 
 # Operação Especial Conta Empresa
-$ O usuário pode solicitar a qualquer momento, ou ao encerrar as atividades o uso de um limite empresarial de R$ 10000,00. Este valor é creditado em seu saldo.
+$ O usuário pode solicitar a qualquer momento, ou ao encerrar as atividades o uso de
+$ um limite empresarial de R$ 10000,00. Este valor é creditado em seu saldo.
 
 # Operação Especial Conta Estudantil
-$ O usuário pode solicitar a qualquer momento, ou ao encerrar as atividades o uso de um limite estudantil de R$ 5000,00. Este valor é creditado em seu saldo.
+$ O usuário pode solicitar a qualquer momento, ou ao encerrar as atividades o uso de 
+$ um limite estudantil de R$ 5000,00. Este valor é creditado em seu saldo.
 
 # Limite de Operações
-$ Existe um limite de movimentações diário, 10 mao todo. São consideradas movimentações apenas créditos e débitos. Operações especiais ativas, como solicitar empréstimo e talão não contabilizam as movimentações.
+$ Existe um limite de movimentações diário, 10 mao todo. São consideradas movimentações 
+$ apenas créditos e débitos. Operações especiais ativas, como solicitar empréstimo e talão 
+$ não contabilizam as movimentações.
 
 
 
